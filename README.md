@@ -1,104 +1,80 @@
 # 🎓 Campus Placement Management System
 
-A web-based placement portal developed using **Java (Jakarta EE 10 / Servlet 6.0)**, **JDBC**, **MySQL**, and a responsive frontend with **Vanilla CSS3**. 
-
-This system bridges the gap between students looking for career opportunities and placement officers/administrators organizing campus recruitment drives.
+A simple web-based **Campus Placement Management System** built using **Java, Jakarta Servlets, JDBC, MySQL, HTML, and CSS**.
 
 ---
 
-## 🎯 Aim & Objectives
+## 🎯 Aim
 
-### **Aim**
-To design and implement a centralized, transparent, and efficient web portal for managing campus placement activities, streamlining drive postings, student applications, and candidate selection workflows.
+To develop a simple and centralized web-based platform for managing campus placement activities.
 
-### **Objectives**
-* **Centralize Recruitment Data:** Provide a single platform for publishing upcoming campus placement drives, job roles, eligibility criteria, and salary packages.
-* **Streamline Student Applications:** Enable students to browse available job openings, apply in one click, and track real-time application status.
-* **Empower Placement Officers:** Give administrators a comprehensive dashboard to manage drives, review applicants, and update candidate statuses (Applied, Shortlisted, Selected, Rejected).
-* **Eliminate Redundancy:** Prevent duplicate applications per student and provide live visibility into placement metrics and statistics.
+## 🎯 Objective
+
+- Provide students with an easy way to explore available placement opportunities and apply for jobs.
+- Allow administrators to manage job openings and track student applications.
+- Demonstrate practical integration of Java, Servlets, JDBC, and MySQL in a full-stack web application.
 
 ---
 
-## ⚙️ How It Works
+## ⚙️ Main Working
 
-```mermaid
-flowchart TD
-    subgraph Student Workflow
-        S1[Student Registration / Login] --> S2[Browse Active Placement Drives]
-        S2 --> S3[Submit Application]
-        S3 --> S4[Track Application Status: Applied / Shortlisted / Selected / Rejected]
-    end
+The application follows this basic architecture:
 
-    subgraph Admin Workflow
-        A1[Admin Registration / Login] --> A2[Admin Analytics Dashboard]
-        A2 --> A3[Publish New Job Drive Opening]
-        A2 --> A4[Review Student Applications]
-        A4 --> A5[Update Candidate Status]
-    end
-
-    A3 -->|Jobs Stored in DB| S2
-    S3 -->|Applications Stored in DB| A4
-    A5 -->|Status Updated in DB| S4
+```text
+HTML + CSS
+     ↓
+Java Servlets
+     ↓
+JDBC
+     ↓
+MySQL
 ```
 
-### 1. Student Portal Flow
-1. **Registration & Login:** Students register with their full name, email, and password. Secure sessions (`studentId`, `studentName`) are maintained upon login.
-2. **Browse Drives:** View all active recruitment drives with details including Company Name, Job Title, Location, Eligibility Criteria, Salary Package (CTC), and Job Description.
-3. **One-Click Application:** Logged-in students can apply for eligible drives. The portal automatically detects prior applications and displays an **"Applied"** badge.
-4. **Application Tracking:** Students can access **"My Applications"** to track their application status live with color-coded status badges (`Applied`, `Shortlisted`, `Selected`, `Rejected`).
+**Student Flow:** Register → Login → Browse Jobs → Apply → Track Application Status
 
-### 2. Administrator (Placement Officer) Flow
-1. **Admin Authentication:** Placement coordinators register and log in to the administrative portal.
-2. **Dashboard Overview:** Displays live key metrics:
-   * **Total Jobs Published**
-   * **Total Applications Received**
-   * **Total Registered Students**
-3. **Publish Job Openings:** Add new visiting company drives with location, salary CTC, criteria, and role descriptions.
-4. **Manage & Review Applications:** View all applicants mapped to specific drives and update their progress status in real-time through an inline dropdown.
+**Admin Flow:** Register → Login → Add Job → View Applications → Update Application Status
+
+Application statuses: `Applied` → `Shortlisted` → `Selected` / `Rejected`
+
+The system uses a MySQL database (`placement_management`) with four tables: `students`, `admins`, `jobs`, and `applications` (linked via foreign keys).
 
 ---
 
-## 🛠️ Technology Stack
+## 🚀 How to Set Up
 
-| Layer | Technologies Used |
-| :--- | :--- |
-| **Backend** | Java 21 / 25 (`JDK 25.0.2`), Jakarta EE 10 / Servlet 6.0 (`jakarta.servlet.*`) |
-| **Database** | MySQL 8.0 with MySQL Connector/J (`com.mysql:mysql-connector-j:9.4.0`) |
-| **Persistence** | JDBC (`java.sql.*`) with Parameterized `PreparedStatement` |
-| **Frontend** | HTML5, Modern CSS3 with Sky-Blue / Slate Design Tokens & Glassmorphism |
-| **Web Server / Runner** | Eclipse Jetty 12 EE10 Maven Plugin (`jetty-ee10-maven-plugin`) |
-| **Build Tool** | Apache Maven 3.9+ |
+### Prerequisites
 
----
+- Java JDK 25
+- Apache Maven 3.9+
+- MySQL Server 8.0+
+- Apache Tomcat 10.1
 
-## 🗄️ Database Architecture & Schema
+### Step 1: Start MySQL
 
-The application connects to a MySQL database named `placement_management`.
+Ensure MySQL Server is running on `localhost:3306`.
+
+### Step 2: Create the Database
 
 ```sql
--- 1. Create Database
 CREATE DATABASE IF NOT EXISTS placement_management;
 USE placement_management;
 
--- 2. Students Table
 CREATE TABLE IF NOT EXISTS students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
 
--- 3. Admins Table
 CREATE TABLE IF NOT EXISTS admins (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL
 );
 
--- 4. Jobs Table
 CREATE TABLE IF NOT EXISTS jobs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     company_name VARCHAR(100) NOT NULL,
     job_title VARCHAR(100) NOT NULL,
     location VARCHAR(100),
@@ -107,118 +83,57 @@ CREATE TABLE IF NOT EXISTS jobs (
     description TEXT
 );
 
--- 5. Applications Table
 CREATE TABLE IF NOT EXISTS applications (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT NOT NULL,
     job_id INT NOT NULL,
     status VARCHAR(50) DEFAULT 'Applied',
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (job_id) REFERENCES jobs(id)
 );
 ```
 
----
+### Step 3: Configure MySQL Credentials
 
-## 🚀 How to Run the Project Locally
-
-### **Prerequisites**
-* **Java JDK:** Java 21 LTS or newer (tested on Java 25)
-* **Apache Maven:** Version 3.8+ (tested on Maven 3.9.16)
-* **MySQL Server:** Version 8.0+ running on port `3306`
-
----
-
-### **Step-by-Step Setup**
-
-#### 1. Configure Database Credentials
-Ensure MySQL is running. If needed, update your MySQL username and password in [DBConnection.java](file:///c:/Users/namra/OneDrive/Documents/Euphoria_Project/PlacementManagementSystem/src/main/java/util/DBConnection.java):
+Open `src/main/java/util/DBConnection.java` and update:
 
 ```java
-private static final String URL = "jdbc:mysql://localhost:3306/placement_management";
+private static final String URL =
+        "jdbc:mysql://localhost:3306/placement_management";
 private static final String USER = "root";
 private static final String PASSWORD = "your_mysql_password";
 ```
 
-#### 2. Verify Database Connection
-Compile and test your database connection:
+### Step 4: Build the Project
+
+From the project root:
 
 ```powershell
-mvn compile
+mvn clean package
 ```
 
-#### 3. Start the Web Server
-Launch the embedded Jetty web server with a single Maven command:
+This generates a `.war` file inside `target/`.
 
-```powershell
-mvn jetty:run
-```
+### Step 5: Deploy to Tomcat
 
-#### 4. Open in Browser
-Once started, navigate to:
-
-👉 **[http://localhost:8080/](http://localhost:8080/)** or **[http://localhost:8080/index.html](http://localhost:8080/index.html)**
-
----
-
-## 🌐 Application URL Reference
-
-| Route | Description |
-| :--- | :--- |
-| `http://localhost:8080/index.html` | Portal Landing Page |
-| `http://localhost:8080/jobs` | Browse Active Campus Placement Drives |
-| `http://localhost:8080/login.html` | Student Login |
-| `http://localhost:8080/register.html` | Student Account Registration |
-| `http://localhost:8080/my-applications` | Student Dashboard (Application Tracker) |
-| `http://localhost:8080/admin-login.html` | Placement Officer / Admin Login |
-| `http://localhost:8080/admin-register.html` | Admin Account Registration |
-| `http://localhost:8080/admin-dashboard` | Placement Analytics & Metrics Dashboard |
-| `http://localhost:8080/add-job.html` | Post New Placement Drive Opening |
-| `http://localhost:8080/admin-applications` | Review & Update Candidate Applications |
-| `http://localhost:8080/logout` | End Session & Logout |
-
----
-
-## 📁 Project Directory Structure
+Copy the `.war` file into the `webapps` folder of your Tomcat installation:
 
 ```text
-PlacementManagementSystem/
-├── pom.xml                                 # Maven dependencies & Jetty EE10 plugin configuration
-├── README.md                               # Project documentation
-└── src/
-    └── main/
-        ├── java/
-        │   ├── TestDBConnection.java       # Database connection verification utility
-        │   ├── servlet/                    # Jakarta EE Servlets
-        │   │   ├── AddJobServlet.java
-        │   │   ├── AdminApplicationsServlet.java
-        │   │   ├── AdminDashboardServlet.java
-        │   │   ├── AdminLoginServlet.java
-        │   │   ├── AdminRegisterServlet.java
-        │   │   ├── ApplyServlet.java
-        │   │   ├── HelloServlet.java
-        │   │   ├── JobsServlet.java
-        │   │   ├── LoginServlet.java
-        │   │   ├── LogoutServlet.java
-        │   │   ├── MyApplicationsServlet.java
-        │   │   ├── RegisterServlet.java
-        │   │   └── UpdateStatusServlet.java
-        │   └── util/
-        │       └── DBConnection.java       # MySQL JDBC connection factory
-        └── webapp/
-            ├── add-job.html                # Post job form
-            ├── admin-login.html            # Admin login page
-            ├── admin-register.html         # Admin registration page
-            ├── index.html                  # Landing page
-            ├── jobs.html                   # Job redirect / listings shell
-            ├── login.html                  # Student login page
-            ├── register.html               # Student registration page
-            └── style.css                   # Custom theme and responsive layout styles
+apache-tomcat-10.1.59/webapps/
 ```
 
----
+### Step 6: Start Tomcat
 
-## 🔒 Security & Best Practice Features
-* **SQL Injection Prevention:** Uses parameterized `PreparedStatement` across all servlets.
-* **Session Integrity:** Protected pages check session existence and user roles before allowing access.
-* **Duplicate Prevention:** Validates existing applications to prevent redundant drive submissions.
+Run `startup.bat` from the Tomcat `bin` folder.
+
+### Step 7: Open the Application
+
+Visit:
+
+```text
+http://localhost:8080/placement-management-system-1.0-SNAPSHOT/
+```
+
+### Stopping the Application
+
+Run `shutdown.bat` from the Tomcat `bin` folder. Stored data remains in MySQL and does not need to be reset.
