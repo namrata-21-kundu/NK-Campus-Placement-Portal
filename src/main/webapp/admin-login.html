@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Placement Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="brand">Campus Placement Portal</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="jobs">Browse Jobs</a>
+            <a href="login.html">Student Login</a>
+            <a href="admin-login.html" style="color: var(--sky-primary);">Admin Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-card">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <span class="badge badge-shortlisted" style="font-size: 0.85rem; padding: 0.35rem 0.8rem;">Placement Officer / Admin</span>
+                <h1 style="margin-top: 0.75rem;">Administrator Login</h1>
+            </div>
+
+            <form action="admin-login" method="post">
+
+                <div class="form-group">
+                    <label for="email">Admin Email:</label>
+                    <input type="email" id="email" name="email" placeholder="admin@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter administrator password" required>
+                </div>
+
+                <button type="submit" class="btn btn-secondary btn-block">Login as Administrator</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1.25rem; font-size: 0.95rem;">
+                <p style="color: var(--text-muted); margin-bottom: 0.5rem;">
+                    Don't have an admin account? <a href="admin-register.html" style="color: var(--sky-primary); font-weight: 600;">Register Admin</a>
+                </p>
+                <p style="color: var(--text-muted);">
+                    Are you a student? <a href="login.html" style="color: var(--sky-primary); font-weight: 600;">Student Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Student Placement Management System</p>
+    </footer>
+
+</body>
+</html>

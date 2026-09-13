@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 
 import util.DBConnection;
 
-@WebServlet("/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet("/admin-register")
+public class AdminRegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
@@ -26,7 +26,7 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        String sql = "INSERT INTO students (name, email, password) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO admins (name, email, password) VALUES (?, ?, ?)";
 
         try {
             Connection connection = DBConnection.getConnection();
@@ -41,32 +41,24 @@ public class RegisterServlet extends HttpServlet {
 
             out.println("<!DOCTYPE html>");
             out.println("<html lang='en'>");
-            out.println("<head><meta charset='UTF-8'><title>Registration Successful</title><link rel='stylesheet' href='style.css'></head>");
+            out.println("<head><meta charset='UTF-8'><title>Admin Registered</title><link rel='stylesheet' href='style.css'></head>");
             out.println("<body>");
             out.println("<div class='container'>");
             out.println("<div class='form-card' style='text-align: center;'>");
-            out.println("<div class='alert alert-success'>Registration Successful!</div>");
-            out.println("<p>Welcome, <strong>" + name + "</strong>. Your student account has been created.</p>");
-            out.println("<br>");
-            out.println("<a href='login.html' class='btn btn-primary btn-block'>Proceed to Login</a>");
+            out.println("<div class='alert alert-success'>Admin Account Created Successfully!</div>");
+            out.println("<p>Administrator <strong>" + name + "</strong> is now registered.</p><br>");
+            out.println("<a href='admin-login.html' class='btn btn-secondary btn-block'>Proceed to Admin Login</a>");
             out.println("</div>");
             out.println("</div>");
             out.println("</body></html>");
 
         } catch (Exception e) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html lang='en'>");
-            out.println("<head><meta charset='UTF-8'><title>Registration Failed</title><link rel='stylesheet' href='style.css'></head>");
-            out.println("<body>");
-            out.println("<div class='container'>");
-            out.println("<div class='form-card' style='text-align: center;'>");
-            out.println("<div class='alert alert-danger'>Registration Failed!</div>");
-            out.println("<p>" + e.getMessage() + "</p>");
-            out.println("<br>");
-            out.println("<a href='register.html' class='btn btn-outline btn-block'>Try Again</a>");
-            out.println("</div>");
-            out.println("</div>");
-            out.println("</body></html>");
+            out.println("<!DOCTYPE html><html lang='en'><head><link rel='stylesheet' href='style.css'></head><body>");
+            out.println("<div class='container'><div class='form-card' style='text-align: center;'>");
+            out.println("<div class='alert alert-danger'>Admin Registration Failed</div>");
+            out.println("<p>" + e.getMessage() + "</p><br>");
+            out.println("<a href='admin-register.html' class='btn btn-outline btn-block'>Try Again</a>");
+            out.println("</div></div></body></html>");
             e.printStackTrace();
         }
     }

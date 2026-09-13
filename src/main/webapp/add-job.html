@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post New Job - Admin Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="admin-dashboard" class="brand">Campus Placement Portal [Admin]</a>
+        <div class="nav-links">
+            <a href="admin-dashboard">Dashboard</a>
+            <a href="add-job.html" style="color: var(--primary);">Add Job</a>
+            <a href="admin-applications">View Applications</a>
+            <a href="jobs">Job Listings</a>
+            <a href="logout" class="btn btn-outline" style="padding: 0.35rem 0.8rem;">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-card" style="max-width: 600px;">
+            <h1>Post New Job Opening</h1>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">Fill in the drive specifications for students to view and apply.</p>
+
+            <form action="add-job" method="post">
+
+                <div class="form-group">
+                    <label for="company_name">Company Name:</label>
+                    <input type="text" id="company_name" name="company_name" placeholder="e.g. Google, Microsoft, Infosys" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="job_title">Job Title / Role:</label>
+                    <input type="text" id="job_title" name="job_title" placeholder="e.g. Software Development Engineer" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" placeholder="e.g. Bangalore / Hybrid / Remote" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eligibility">Eligibility Criteria:</label>
+                    <input type="text" id="eligibility" name="eligibility" placeholder="e.g. B.Tech / MCA with min 7.0 CGPA" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="salary">Salary Package / CTC:</label>
+                    <input type="text" id="salary" name="salary" placeholder="e.g. 12 LPA" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Job Description & Responsibilities:</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Enter key responsibilities, interview rounds, or details..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Publish Job Opening</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 1.25rem;">
+                <a href="admin-dashboard" style="color: var(--secondary); font-size: 0.95rem;">&larr; Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Student Placement Management System</p>
+    </footer>
+
+</body>
+</html>
